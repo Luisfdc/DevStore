@@ -1,0 +1,149 @@
+﻿@model DevStore.Domain.Product
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<title>Novo Produto</title>
+<script>
+    $(document).ready(function () {
+
+
+        var ModelItem = @Html.Raw(Json.Encode(Model));
+
+        ModelItem.AquireDate = ModelItem.AquireDate.toString("dd/mm/yyy");
+
+        $.ajax({
+            datatype: 'json',
+            type: 'GET',
+            url: 'http://4mg.somee.com/DevStore/api/v1/public/categories/',
+            success: function (dados) {
+
+                var opt = ("<option value='0'></option>");
+                $("#category").append(opt);
+
+                $(dados).each(function (i) {
+                    debugger;
+                    var opt = ("<option value='"+dados[i].id+"'>" + dados[i].title + "</option>");
+                    $("#category").append(opt);
+                });
+
+                if (ModelItem.CategorYId > 0) {
+                    $('#category option[value=' + ModelItem.CategorYId + ']').attr('selected', 'selected');
+                } else {
+                    $('#category option[value=0]').attr('selected', 'selected');
+                }
+            }
+        });
+
+
+        $("#category").change(function() {
+            ModelItem.CategorYId = $(this).val();
+        });
+
+
+        $("#title").change(function() {
+            ModelItem.Title = $(this).val();
+        });
+
+
+        $("#price").change(function() {
+            ModelItem.Price = $(this).val();
+        });
+
+
+        $("#active").change(function() {
+            ModelItem.IsActive = $(this).val();
+        });
+
+        $("#date").change(function() {
+            ModelItem.AquireDate = $(this).val();
+        });
+
+        $("#save").click(function() {
+            var product = JSON.stringify(ModelItem);
+
+            $.ajax({
+                datatype: 'json',
+                type: 'Post',
+                url: '/Product/Save',
+                cache: false,
+                async: true,
+                data: product,
+                contentType: 'application/json; charset=utf-8',
+                success: function (dados) {
+                    return false;
+                }
+            });
+
+            return false;
+        });
+    });
+</script>
+
+
+<h1>Produto</h1>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @id = "title" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "price" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AquireDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" id="date" class="form-control" value="@Model.AquireDate.ToShortDateString()" />
+                @*@Html.EditorFor(model => model.AquireDate, new { htmlAttributes = new { @class = "form-control", @id = "date", @type = "text" } })*@
+                @Html.ValidationMessageFor(model => model.AquireDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @id = "active" } })
+                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategorYId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="category" class="form-control"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" id="save" value="Salvar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Voltar", "Index")
+</div>
+
+

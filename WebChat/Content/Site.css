@@ -1,0 +1,45 @@
+﻿#messages {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 500px;
+    width: 80%;
+    background-color: white;
+    margin-top: 20px;
+    float: left;
+    border: solid 1px;
+    padding: 15px;
+}
+
+    #messages .row {
+        border-bottom: dashed 1px #CCC;
+        margin-bottom: 10px;
+    }
+
+        #messages .row .date-span {
+            margin-right: 10px;
+        }
+
+#controls {
+    margin-top: 10px;
+}
+
+body {
+    background-color: #cccccc;
+}
+#message-text {
+    
+    height: 50px;
+}
+#send-message {
+    width: 150px;
+}
+
+
+#logado {
+    height: 500px;
+    width: 20%;
+    background-color: white;
+    margin-top: 20px;
+    float: left;
+    border: solid 1px;
+}
