@@ -17,6 +17,12 @@ namespace DevStore.WebAPI.Controllers
         private readonly ICategoryRepository _categoryRepository;
         private readonly IProductRepository _productRepository;
 
+        public ProductsController(ICategoryRepository categoryRepository, IProductRepository productRepository)
+        {
+            _categoryRepository = categoryRepository;
+            _productRepository = productRepository;
+        }
+                
 
         [Route("products")]
         public HttpResponseMessage Getproducts()
