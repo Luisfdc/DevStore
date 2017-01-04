@@ -5,5 +5,6 @@ namespace DevStore.Infra.Repository
 {
     public class CategoryRepository: RepositoryBase<Category> , ICategoryRepository
     {
+
     }
 }

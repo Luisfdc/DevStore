@@ -1,13 +1,14 @@
 ﻿using System;
 using DevStore.Domain.Interfaces;
+using DevStore.Domain;
 
 namespace DevStore.Application
 {
-    public class User : Singleton<User>
+    public class UserApplication : Singleton<User>
     {
         private IUserRepository userRepository;
 
-        private User(IUserRepository _userRepository)
+        private UserApplication(IUserRepository _userRepository)
         {
             userRepository = _userRepository;
         }
@@ -17,7 +18,7 @@ namespace DevStore.Application
 
             try
             {
-                Domain.User user = new Domain.User(name);
+                User user = new User(name);
                 userRepository.Add(user);
                 return new ResponseObject(true, "Usuário inserido com sucesso!", user);
             }

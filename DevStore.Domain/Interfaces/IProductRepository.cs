@@ -6,5 +6,6 @@ namespace DevStore.Domain.Interfaces
     {
         IEnumerable<Product> GetByPrice(decimal price);
         IEnumerable<Product> GetByCategory(int categoryId);
+        IEnumerable<Product> GetEndCategory();
     }
 }

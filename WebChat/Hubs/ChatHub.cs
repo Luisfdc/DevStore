@@ -2,7 +2,6 @@
 using DevStore.Domain;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
-using User = DevStore.Application.User;
 using DevStore.Application;
 
 namespace WebChat.Hubs
@@ -10,16 +9,25 @@ namespace WebChat.Hubs
     [HubName("chatHub")]
     public class ChatHub : Hub
     {
+        private UserApplication _userApplication;
+        private MessagesApplication _messagesApplication;
+
+        public ChatHub(UserApplication userApplication, MessagesApplication messagesApplication)
+        {
+            _userApplication = userApplication;
+            _messagesApplication = messagesApplication;
+        }
+
         public ResponseObject EnterChat(string name)
         {
-            var resp = User.Instance.RegisterNewUser(name);
+            var resp = _userApplication.RegisterNewUser(name);
 
             return resp;
         }
 
         public ResponseObject SendMessage(string text, int id, string userName)
         {
-            var resp = Messages.Instance.NewMessageFromUser(text, id);
+            var resp = _messagesApplication.NewMessageFromUser(text, id);
 
             Clients.All.newMessage(resp.Object, userName);
 
@@ -28,7 +36,7 @@ namespace WebChat.Hubs
 
         public List<Message> GetRecentMessages()
         {
-            var resp = Messages.Instance.GetRecentMessages();
+            var resp = _messagesApplication.GetRecentMessages();
             return resp;
         }
     }

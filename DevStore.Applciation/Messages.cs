@@ -6,11 +6,11 @@ using DevStore.Domain.Interfaces;
 
 namespace DevStore.Application
 {
-    public class Messages : Singleton<Messages>
+    public class MessagesApplication : Singleton<MessagesApplication>
     {
         private IMessageRepository messageRepository;
 
-        private Messages(IMessageRepository _messageRepository)
+        private MessagesApplication(IMessageRepository _messageRepository)
         {
             messageRepository = _messageRepository;
         }

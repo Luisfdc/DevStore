@@ -27,7 +27,7 @@ namespace DevStore.WebAPI.Controllers
         [Route("products")]
         public HttpResponseMessage Getproducts()
         {
-            var result = _productRepository.Get();
+            var result = _productRepository.GetEndCategory();
             return Request.CreateResponse(HttpStatusCode.OK, result);
 
         }
@@ -47,13 +47,7 @@ namespace DevStore.WebAPI.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result);
 
         }
-
-        [Route("categories")]
-        public HttpResponseMessage GetCategory()
-        {
-            var result = _categoryRepository.Get().ToList();
-            return Request.CreateResponse(HttpStatusCode.OK, result);
-        }
+        
 
         [Route("categories/{categoryId}/products")]
         public HttpResponseMessage GetproductsByCategoryId(int categoryId)
